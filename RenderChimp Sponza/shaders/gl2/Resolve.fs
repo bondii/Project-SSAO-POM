@@ -11,7 +11,7 @@ void main()
 	vec4 diffuseTexture = texture2D(diffuseTextureBuffer, tc);	
 	vec4 light = texture2D(lightBuffer,tc);
 
-	vec3 ambient = vec3(0.2);
+	vec3 ambient = vec3(0.8);
 
 
 	/* Final lighting */
