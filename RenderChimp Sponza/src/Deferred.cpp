@@ -10,6 +10,7 @@
 #include "RenderChimp.h"
 
 Geometry *sphere;
+Geometry *elephant;
 
 World *world;
 Camera *camera;
@@ -114,8 +115,6 @@ void RCInit()
 
 
 	resolveShader = SceneGraph::createShaderProgram("ResolveSP", 0, "Resolve.vs", "Resolve.fs", 0);
-	resolveShader->getRenderState()->disableCulling();
-	resolveShader->getRenderState()->disableDepthTest();
 
 
 	spotLightShader = SceneGraph::createShaderProgram("SpotLightingSP", 0, "DeferredSpotLight.vs", "DeferredSpotLight.fs", 0);
@@ -184,11 +183,21 @@ void RCInit()
 	prev_pos = vec2f(0.0f, 0.0f);
 	camera_rotation = vec2f(0.0f, 0.0f);
 
+	/*
 	sphere = SceneGraph::createGeometry("sphere", "scenes/sphere.obj");
 	world->attachChild(sphere);
 	sphere->setShaderProgram(resolveShader);
 	sphere->setScale(1);
 	geometryList.push_back(sphere);
+	*/
+
+	elephant = SceneGraph::createGeometry("elephant", "scenes/elephant.obj");
+	//elephant->setShaderProgram(resolveShader);
+	world->attachChild(elephant);
+	elephant->setScale(0.1f);
+	elephant->rotateY(3.14f/2);
+	
+	geometryList.push_back(elephant);
 
 }
 
