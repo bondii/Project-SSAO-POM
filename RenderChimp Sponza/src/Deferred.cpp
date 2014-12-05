@@ -220,13 +220,16 @@ u32 RCUpdate()
 	Renderer::setRenderTarget(lightBuffer);
 	Renderer::clearColor(vec4f(0.f,0.f,0.f,0.f));
 
+	vec3f light_vectors[N_LIGHTS];
+
 	for (i = 0; i < N_LIGHTS; i++) {
 
 		/* Set position and direction of lightsources */
 		Geometry *lightBounds = (Geometry *) light_list[i]->getChild(0);
 		light_list[i]->setRotate(Platform::getFrameTime()*0.1+i*1.3f, 0.f, 1.f, 0.f);
 		light_list[i]->setTranslate(vec3f(cos(Platform::getFrameTime()*0.1+i*2.1f)*4.f,2.f+i*1.f,0.f));
-		lightBounds->setValue("LightPosition", light_list[i]->getWorldPosition());
+		light_vectors[i] = light_list[i]->getWorldPosition();
+		lightBounds->setValue("LightPosition", light_vectors[i]);
 		lightBounds->setValue("LightDirection", light_list[i]->getWorldFront());
 
 		Renderer::setRenderTarget(shadowBuffer);
@@ -244,9 +247,9 @@ u32 RCUpdate()
 
 		Renderer::setCameraMatrices(camera);
 		Renderer::render(*lightBounds, spotLightShader);
-
-
 	}
+	resolveShader->setValueArray("LightPosition", light_vectors, N_LIGHTS);
+	resolveShader->setValue("ViewPosition", camera->getWorldPosition());
 
 	/* Pass 3: Use diffuse part geometrybuffer and lightbuffer and compute final image */
 	Renderer::setRenderTarget(0);

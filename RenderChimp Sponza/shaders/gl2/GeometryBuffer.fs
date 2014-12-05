@@ -4,6 +4,7 @@ uniform vec3 ViewPosition;
 uniform sampler2D DiffuseTexture;
 uniform sampler2D SpecularTexture;
 uniform sampler2D NormalTexture;
+uniform sampler2D DisplacementTexture;
 
 uniform float emissive;
 
@@ -49,5 +50,9 @@ void main() {
 
 	/* Diffuse color */
 	gl_FragData[2].rgb = texture2D(DiffuseTexture,texcoords).rgb;
-	gl_FragData[2].a = 1.0; 
+	gl_FragData[2].a = 1.0;
+
+	/* Displacement value */
+	gl_FragData[0].a = texture2D(DisplacementTexture, texcoords).r;
+
 }

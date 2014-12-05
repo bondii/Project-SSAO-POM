@@ -82,6 +82,7 @@ class OBJParser {
 				transparency = 0.0f;
 				reflectivity = 0.0f;
 				refractionIndex = 1.0f;
+				displacementTexture = 0;
 			}
 
 			void clear() {
@@ -95,6 +96,9 @@ class OBJParser {
 					free(specularTexture);
 				if (bumpTexture)
 					free(bumpTexture);
+				if (displacementTexture) {
+					free(displacementTexture);
+				}
 			}
 
 
@@ -106,6 +110,7 @@ class OBJParser {
 			char *diffuseTexture;
 			char *specularTexture;
 			char *bumpTexture;
+			char *displacementTexture;
 			f32 shininess;
 			f32 sharpness;
 			f32 transparency;
