@@ -1,20 +1,74 @@
 
 uniform sampler2D diffuseTextureBuffer;
 uniform sampler2D lightBuffer;
+uniform sampelr2D heightBuffer;
 
 varying vec2 tc;
+
+varying vec3 viewVector;
+varying vec3 normal;
+varying vec3 worldPos;
 
 #define EXTRACT_DEPTH(cc)	((cc).b + (cc).g / 256.0 + (cc).r / (256.0 * 256.0) + (cc).a / (256.0 * 256.0 * 256.0))
 
 void main()
 {
-	vec4 diffuseTexture = texture2D(diffuseTextureBuffer, tc);	
-	vec4 light = texture2D(lightBuffer,tc);
+	float fHeightMapScale = 0.1;
+	float fParallaxLimit = -length(viewVector.xy) / viewVector.z;
+	fParallaxLimit *= fHeightMapScale;
 
+	vec2 vOffsetDir = normalize(viewVector.xy);
+	vec2 vMaxOffset = vOffsetDir * fParallaxLimit;
 
-	vec3 ambient = vec3(0.3);
+	int nMaxSamples = 20;
+	int nMinSamples = 4;
+	int nNumSamples = (int) lerp(nMaxSamples, nMinSamples, dot(viewVector, normal));
+
+	float fStepSize = 1.0 / (float)nNumSamples;
+
+	vec2 dx = ddx(tc);
+	vec2 dy = ddy(tc);
+
+	float fCurrRayHeight = 1.0;
+	vec2 vCurrOffset = vec2(0, 0);
+	vec2 vLastOffset = vec2(0, 0);
+
+	float fLastSampledHeight = 1.0;
+	float fCurrSampledHeight = 1.0;
+
+	int nCurrSample = 0;
+
+	while (nCurrSample < nNumSamples) {
 		fCurrSampledHeight = textureGrad(heightBuffer, tc + vCurrOffset, dx, dy).a; // **** how does this work? textureGrad??
+		if (fCurrSampledHeight > fCurrRayHeight) {
+			float delta1 = fCurrSampledHeight - fCurrRayHeight;
+			float delta2 = (fCurrRayHeight + fStepSize) - fLastSampledHeight;
 
+			float ratio = delta1/(delta1+delta2);
+
+			vCurrOffset = ratio * vLastOffset + (1.0 - ratio) * vCurrOffset;
+
+			nCurrSample = nNumSamples +1;
+		} else {
+			nCurrSample++;
+
+			fCurrRayHeight -= fStepSize;
+
+			vLastOffset = vCurrOffset;
+			vCurrOffset += fStepSize * vMaxOffset;
+
+			fLastSampledHeight = fCurrSampledHeight;
+		}
+	}
+
+	vec2 vFinalCoords = tc + vCurrOffset;
+
+	vec3 vFinalNormal = texture2D(heightBuffer, vFinalCoords).xyz;
+	vFinalNormal = vFinalNormal * 2.0 - 1.0;
+	
+	vec4 diffuseTexture = texture2D(diffuseTextureBuffer, vFinalCoords);	
+	vec4 light = texture2D(lightBuffer, vFinalCoords);
+	vec3 ambient = vec3(0.3);
 
 	/* Final lighting */
 	gl_FragData[0] = vec4((light.rgb+ambient)*diffuseTexture.rgb,1.0);
