@@ -33,12 +33,10 @@ vec4 encodeDepth(float depth)
 void main() {
 	mat3 TBN = mat3(worldTangent, worldBinormal, worldNormal); 
     vec3 textureNormal = texture2D(NormalTexture, texcoords).xyz*2.0-1.0;
-    vec3 TSNormal = TBN * textureNormal;
-    vec3 NewNormal = normalize(TSNormal);
+    vec3 NewNormal = normalize(TBN * textureNormal);
 
 	/* Depth value */
 	gl_FragData[0] = encodeDepth(gl_FragCoord.z);
-	
 
 	/* World normal */
 	gl_FragData[1].r = (NewNormal.x*0.5)+0.5;
@@ -64,6 +62,5 @@ void main() {
 	gl_FragData[4].r = 0;
 	gl_FragData[4].g = 0;
 	gl_FragData[4].b = 0;
-
 
 }

@@ -16,16 +16,16 @@ uniform sampler2D binormalBuffer;
 void main()
 {
 	vec3 worldPos = (World * vec4(Vertex, 1)).xyz;
-	vec3 normal = normalize(texture2D(normalAndSpecularBuffer, invRes*gl_FragCoord.xy).xyz*2.0-1.0);
+	vec3 normal = normalize(texture2D(normalAndSpecularBuffer, invRes*gl_FragCoord.xy).xyz*2.0-1.0); //in world space
 	vec3 viewVector = worldPos - ViewPosition;
-	vec3 lightPositions[LightPosition.length()];
+	vec3 lightVector[LightPosition.length()];
 	for (int i=0; i<lightPosition.length(); i++) {
-		lightPositions[i] = lightPosition[i] - worldPos;
+		lightVector[i] = lightPosition[i] - worldPos;
 	}
 
 	mat3 tangentToWorldSpace;
 
-	// mW * ?
+	// World * ?
 	tangentToWorldSpace[0] = normalize(texture2D(tangentBuffer, invRes*gl_FragCoord.xy).xyz*2.0-1.0);
 	tangentToWorldSpace[1] = normalize(texture2D(binormalBuffer, invRes*gl_FragCoord.xy).xyz*2.0-1.0);
 	tangentToWorldSpace[2] = normal;
