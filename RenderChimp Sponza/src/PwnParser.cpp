@@ -158,6 +158,7 @@ void PwnParse(
             mesh->setValue("HasDiffuseTexture", 0);
             mesh->setValue("HasSpecularTexture", 0);
             mesh->setValue("HasNormalTexture", 0);
+			mesh->setValue("HasDisplacementTexture", 0);
 
             mesh->setValue("AmbientColor", vec3f(0.2f));
             mesh->setValue("DiffuseColor", vec3f(0.5f));

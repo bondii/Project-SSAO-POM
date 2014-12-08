@@ -55,4 +55,15 @@ void main() {
 	/* Displacement value */
 	gl_FragData[0].a = texture2D(DisplacementTexture, texcoords).r;
 
+	/* World tangent */
+	gl_FragData[3].r = 0;
+	gl_FragData[3].g = 0;
+	gl_FragData[3].b = 0;
+
+	/* World binormal */
+	gl_FragData[4].r = 0;
+	gl_FragData[4].g = 0;
+	gl_FragData[4].b = 0;
+
+
 }

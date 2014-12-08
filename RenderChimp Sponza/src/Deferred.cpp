@@ -115,7 +115,8 @@ void RCInit()
 
 
 	resolveShader = SceneGraph::createShaderProgram("ResolveSP", 0, "Resolve.vs", "Resolve.fs", 0);
-
+	resolveShader->setTexture("tangentBuffer", geometryBuffer->getTexture(3));
+	resolveShader->setTexture("binormalBuffer", geometryBuffer->getTexture(4));
 
 	spotLightShader = SceneGraph::createShaderProgram("SpotLightingSP", 0, "DeferredSpotLight.vs", "DeferredSpotLight.fs", 0);
 	spotLightShader->setValue("invRes", inv_res);

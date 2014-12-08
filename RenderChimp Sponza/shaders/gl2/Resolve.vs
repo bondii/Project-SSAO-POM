@@ -10,6 +10,9 @@ uniform vec2 invRes;
 
 varying vec2 tc;
 
+uniform sampler2D tangentBuffer;
+uniform sampler2D binormalBuffer;
+
 void main()
 {
 	vec3 worldPos = (World * vec4(Vertex, 1)).xyz;
@@ -22,9 +25,10 @@ void main()
 
 	mat3 tangentToWorldSpace;
 
-	tangentToWorldSpace[0] = mW * normalize(IN.tangent);
-	tangentToWorldSpace[1] = mW * normalize(IN.binormal;
-	tangentToWorldSpace[2] = mW * normalize(normal);
+	// mW * ?
+	tangentToWorldSpace[0] = normalize(texture2D(tangentBuffer, invRes*gl_FragCoord.xy).xyz*2.0-1.0);
+	tangentToWorldSpace[1] = normalize(texture2D(binormalBuffer, invRes*gl_FragCoord.xy).xyz*2.0-1.0);
+	tangentToWorldSpace[2] = normal;
 
 	tc = 0.5 + Vertex * 0.5;
 	gl_Position = vec4(Vertex.xy, 0.0, 1.0);
