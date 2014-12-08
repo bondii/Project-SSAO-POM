@@ -99,7 +99,7 @@ void PwnParse(
 				fscanf(f,"t %s t",map_d);
 			if (mask & 32)
 				fscanf(f,"t %s t",map_bump);
-			if (mask & 64) {
+			if (mask & 64) { // **** How do I read displacement-textures? *****
 				fscanf(f, "t %s t", map_disp);
 			}			
 			

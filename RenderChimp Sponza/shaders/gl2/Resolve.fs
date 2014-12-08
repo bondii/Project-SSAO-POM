@@ -13,6 +13,7 @@ void main()
 
 
 	vec3 ambient = vec3(0.3);
+		fCurrSampledHeight = textureGrad(heightBuffer, tc + vCurrOffset, dx, dy).a; // **** how does this work? textureGrad??
 
 
 	/* Final lighting */

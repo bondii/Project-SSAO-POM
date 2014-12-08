@@ -56,7 +56,7 @@ void main() {
 	/* World tangent */
 	gl_FragData[3].r = 0;
 	gl_FragData[3].g = 0;
-	gl_FragData[3].b = 0;
+	gl_FragData[3].b = 0; // **** HELP! *****
 
 	/* World binormal */
 	gl_FragData[4].r = 0;
