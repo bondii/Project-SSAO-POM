@@ -56,5 +56,5 @@ void main() {
 	gl_FragData[5].rgb = worldBinormal*0.5+0.5;
 
 	/* Displacement value */
-	gl_FragData[6] = DisplacementTexture;
+	gl_FragData[6] = texture2D(DisplacementTexture, texcoords);
 }
