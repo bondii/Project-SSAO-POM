@@ -7,13 +7,12 @@ varying vec2 tc;
 
 varying vec3 viewVector;
 varying vec3 normal;
-varying vec3 outPos;
 
 #define EXTRACT_DEPTH(cc)	((cc).b + (cc).g / 256.0 + (cc).r / (256.0 * 256.0) + (cc).a / (256.0 * 256.0 * 256.0))
 
 void main()
 {
-	float fHeightMapScale = 0.1;
+	float fHeightMapScale = 0.8;
 	float fParallaxLimit = -length(viewVector.xy) / viewVector.z;
 	fParallaxLimit *= fHeightMapScale;
 
@@ -62,11 +61,8 @@ void main()
 	}
 
 	vec2 vFinalCoords = tc + vCurrOffset;
-
-	vec3 vFinalNormal = texture2D(heightBuffer, vFinalCoords).xyz;
-	vFinalNormal = vFinalNormal * 2.0 - 1.0;
 	
-	vec4 diffuseTexture = texture2D(diffuseTextureBuffer, vFinalCoords);	
+	vec4 diffuseTexture = texture2D(diffuseTextureBuffer, vFinalCoords);
 	vec4 light = texture2D(lightBuffer, vFinalCoords);
 	vec3 ambient = vec3(0.8);
 
