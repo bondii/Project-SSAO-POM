@@ -184,7 +184,8 @@ void PwnParse(
                 mesh->setTexture("NormalTexture", SceneGraph::createTexture(map_bump));
                 mesh->setValue("HasNormalTexture", 1);
             }
-
+			strcat(mat, "_disp.png");
+			mesh->setTexture("DisplacementTexture", SceneGraph::createTexture(mat, strcat("textures/sponza/",mat), true, TEXTURE_FILTER_TRILINEAR, TEXTURE_WRAP_REPEAT));
 	
 			free(sv_array);
 			free(si_array);

@@ -1,7 +1,7 @@
 
 uniform sampler2D diffuseTextureBuffer;
 uniform sampler2D lightBuffer;
-uniform sampelr2D heightBuffer;
+uniform sampler2D heightBuffer;
 
 varying vec2 tc;
 
@@ -39,7 +39,7 @@ void main()
 	int nCurrSample = 0;
 
 	while (nCurrSample < nNumSamples) {
-		fCurrSampledHeight = textureGrad(heightBuffer, tc + vCurrOffset, dx, dy).a; // **** how does this work? textureGrad??
+		fCurrSampledHeight = textureGrad(heightBuffer, tc + vCurrOffset, dx, dy).a;
 		if (fCurrSampledHeight > fCurrRayHeight) {
 			float delta1 = fCurrSampledHeight - fCurrRayHeight;
 			float delta2 = (fCurrRayHeight + fStepSize) - fLastSampledHeight;

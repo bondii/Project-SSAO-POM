@@ -13,8 +13,6 @@
 
 #include "ObjParser.h"
 
-#include <iostream>
-
 using namespace std;
 
 bool OBJParser::parseMaterials(
@@ -566,18 +564,6 @@ Geometry *OBJParser::createGeometry(const char *fn, char *name, Material *m, i32
 			geo->setValue("HasNormalTexture", 1);
 		} else
 			geo->setValue("HasNormalTexture", 0);
-		if (false) { //den är en viss textur?
-			Texture *t = (Texture *) SceneGraph::getResource<Texture>(m->displacementTexture);
-			if (!t) {
-				t = SceneGraph::createTexture(m->displacementTexture, m->displacementTexture, true, TEXTURE_FILTER_TRILINEAR, TEXTURE_WRAP_REPEAT);
-			} else {
-				t = (Texture *) t->instantiate();
-			}
-			geo->setTexture("DisplacementTexture", t);
-			geo->setValue("HasDisplacementTexture", 1);
-		} else {
-			geo->setValue("HasDisplacementTexture", 0);
-		}
 	} else
 		geo->setString("MaterialName", "None");
 
