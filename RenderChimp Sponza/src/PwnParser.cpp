@@ -80,7 +80,6 @@ void PwnParse(
 			char map_Ns[1024] = "";
 			char map_d[1024] = "";
 			char map_bump[1024] = "";
-			char map_disp[1024] = "";
 			
 			fscanf(f,"g %s g",g);
 			fscanf(f,"usemtl %s usemtl",mat);
@@ -99,12 +98,7 @@ void PwnParse(
 				fscanf(f,"t %s t",map_d);
 			if (mask & 32)
 				fscanf(f,"t %s t",map_bump);
-			if (mask & 64) {
-				fscanf(f, "t %s t", map_disp);
-			}			
-			
-			
-			
+
 			
 			//printf("g %s and usemtl %s\n",g,mat);
 			u32 numV = int_r(f);
@@ -190,10 +184,6 @@ void PwnParse(
                 mesh->setTexture("NormalTexture", SceneGraph::createTexture(map_bump));
                 mesh->setValue("HasNormalTexture", 1);
             }
-			if (map_disp[0]) {
-				mesh->setTexture("DisplacementTexture", SceneGraph::createTexture(map_disp));
-				mesh->setValue("HasDisplacementTexture", 1);
-			}
 
 	
 			free(sv_array);
