@@ -115,9 +115,11 @@ void RCInit()
 
 
 	resolveShader = SceneGraph::createShaderProgram("ResolveSP", 0, "Resolve.vs", "Resolve.fs", 0);
-	resolveShader->setTexture("tangentBuffer", geometryBuffer->getTexture(3));
-	resolveShader->setTexture("binormalBuffer", geometryBuffer->getTexture(4));
-	resolveShader->setTexture("heightBuffer", geometryBuffer->getTexture(0));
+	resolveShader->setValue("invRes", inv_res);
+	resolveShader->setTexture("normalBuffer", geometryBuffer->getTexture(3));
+	resolveShader->setTexture("tangentBuffer", geometryBuffer->getTexture(4));
+	resolveShader->setTexture("binormalBuffer", geometryBuffer->getTexture(5));
+	resolveShader->setTexture("heightBuffer", geometryBuffer->getTexture(6));
 
 	spotLightShader = SceneGraph::createShaderProgram("SpotLightingSP", 0, "DeferredSpotLight.vs", "DeferredSpotLight.fs", 0);
 	spotLightShader->setValue("invRes", inv_res);
@@ -181,6 +183,8 @@ void RCInit()
 		light_list[i]->attachChild(ls);
 		world->attachChild(light_list[i]);
 	}
+
+	
 
 	prev_pos = vec2f(0.0f, 0.0f);
 	camera_rotation = vec2f(0.0f, 0.0f);

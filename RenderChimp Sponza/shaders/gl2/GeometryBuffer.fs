@@ -50,15 +50,10 @@ void main() {
 	gl_FragData[2].rgb = texture2D(DiffuseTexture,texcoords).rgb;
 	gl_FragData[2].a = 1.0;
 
-	/* World tangent */
-	gl_FragData[3].r = 0;
-	gl_FragData[3].g = 0;
-	gl_FragData[3].b = 0; // **** HELP! *****
-
-	/* World binormal */
-	gl_FragData[4].r = 0;
-	gl_FragData[4].g = 0;
-	gl_FragData[4].b = 0;
+	/* Normal, tangent and binormal */
+	gl_FragData[3] = worldNormal;
+	gl_FragData[4] = worldTangent;
+	gl_FragData[5] = worldBinormal;
 
 	/* Displacement value */
 	gl_FragData[6] = DisplacementTexture;
