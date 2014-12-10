@@ -115,7 +115,6 @@ void RCInit()
 
 
 	resolveShader = SceneGraph::createShaderProgram("ResolveSP", 0, "Resolve.vs", "Resolve.fs", 0);
-	resolveShader->setValue("invRes", inv_res);
 	resolveShader->setTexture("normalBuffer", geometryBuffer->getTexture(3));
 	resolveShader->setTexture("tangentBuffer", geometryBuffer->getTexture(4));
 	resolveShader->setTexture("binormalBuffer", geometryBuffer->getTexture(5));

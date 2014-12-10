@@ -31,7 +31,7 @@ vec4 encodeDepth(float depth)
 }
 
 void main() {
-	mat3 TBN = mat3(worldTangent, worldBinormal, worldNormal); 
+	mat3 TBN = mat3(worldTangent, worldBinormal, worldNormal);
     vec3 textureNormal = texture2D(NormalTexture, texcoords).xyz*2.0-1.0;
     vec3 NewNormal = normalize(TBN * textureNormal);
 
@@ -51,9 +51,9 @@ void main() {
 	gl_FragData[2].a = 1.0;
 
 	/* Normal, tangent and binormal */
-	gl_FragData[3] = worldNormal;
-	gl_FragData[4] = worldTangent;
-	gl_FragData[5] = worldBinormal;
+	gl_FragData[3].rgb = worldNormal*0.5+0.5;
+	gl_FragData[4].rgb = worldTangent*0.5+0.5;
+	gl_FragData[5].rgb = worldBinormal*0.5+0.5;
 
 	/* Displacement value */
 	gl_FragData[6] = DisplacementTexture;

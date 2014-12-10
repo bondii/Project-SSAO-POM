@@ -6,7 +6,6 @@ uniform vec3 LightPosition[];
 
 uniform mat4 World;
 uniform mat4 WorldViewProjection;	/* transform to screen space */
-uniform vec2 invRes;
 
 varying vec2 tc;
 
@@ -23,9 +22,9 @@ void main()
 {
 	worldPos = (World * vec4(Vertex, 1)).xyz;
 
-	vec3 normal =	normalize(texture2D(normalBuffer, invRes*gl_FragCoord.xy).xyz*2.0-1.0);		//in world space
-	vec3 tangent =	normalize(texture2D(tangentBuffer, invRes*gl_FragCoord.xy).xyz*2.0-1.0);	//in world space
-	vec3 binormal =	normalize(texture2D(binormalBuffer, invRes*gl_FragCoord.xy).xyz*2.0-1.0);	//in world space
+	vec3 normal =	texture2D(normalBuffer, tc).xyz*2.0-1.0;		//in world space
+	vec3 tangent =	texture2D(tangentBuffer, tc).xyz*2.0-1.0;	//in world space
+	vec3 binormal =	texture2D(binormalBuffer, tc).xyz*2.0-1.0;	//in world space
 
 	viewVector = worldPos - ViewPosition;
 	
