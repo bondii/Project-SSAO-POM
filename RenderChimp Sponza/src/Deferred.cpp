@@ -96,7 +96,7 @@ void RCInit()
 
 
 
-	geometryBuffer = SceneGraph::createRenderTarget("GeometryRT", x, y, 3, true, false,TEXTURE_FILTER_NEAREST);
+	geometryBuffer = SceneGraph::createRenderTarget("GeometryRT", x, y, 7, true, false,TEXTURE_FILTER_NEAREST);
 	lightBuffer = SceneGraph::createRenderTarget("LightRT", x, y, 1, false, false,TEXTURE_FILTER_NEAREST);
 	shadowBuffer = SceneGraph::createRenderTarget("ShadowRT", SHADOW_MAP_RES, SHADOW_MAP_RES, 1, true, false,TEXTURE_FILTER_NEAREST);
 	geometryBuffer->shareDepthBuffer(lightBuffer);

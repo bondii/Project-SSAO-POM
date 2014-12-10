@@ -7,7 +7,7 @@ varying vec2 tc;
 
 varying vec3 viewVector;
 varying vec3 normal;
-varying vec3 worldPos;
+varying vec3 outPos;
 
 #define EXTRACT_DEPTH(cc)	((cc).b + (cc).g / 256.0 + (cc).r / (256.0 * 256.0) + (cc).a / (256.0 * 256.0 * 256.0))
 
@@ -22,12 +22,12 @@ void main()
 
 	int nMaxSamples = 20;
 	int nMinSamples = 4;
-	int nNumSamples = (int) lerp(nMaxSamples, nMinSamples, dot(viewVector, normal));
+	int nNumSamples = int(mix(nMaxSamples, nMinSamples, dot(viewVector, normal)));
 
-	float fStepSize = 1.0 / (float)nNumSamples;
+	float fStepSize = 1.0 / float(nNumSamples);
 
-	vec2 dx = ddx(tc);
-	vec2 dy = ddy(tc);
+	vec2 dx = dFdx(tc);
+	vec2 dy = dFdy(tc);
 
 	float fCurrRayHeight = 1.0;
 	vec2 vCurrOffset = vec2(0, 0);
@@ -68,7 +68,7 @@ void main()
 	
 	vec4 diffuseTexture = texture2D(diffuseTextureBuffer, vFinalCoords);	
 	vec4 light = texture2D(lightBuffer, vFinalCoords);
-	vec3 ambient = vec3(0.3);
+	vec3 ambient = vec3(0.8);
 
 	/* Final lighting */
 	gl_FragData[0] = vec4((light.rgb+ambient)*diffuseTexture.rgb,1.0);

@@ -1,27 +1,28 @@
 
 attribute vec2 Vertex;
 
+const int N_LIGHTS = 4;
+
 uniform vec3 ViewPosition;
-uniform vec3 LightPosition[];
 
 uniform mat4 World;
 uniform mat4 WorldViewProjection;	/* transform to screen space */
-
-varying vec2 tc;
 
 uniform sampler2D normalBuffer;
 uniform sampler2D tangentBuffer;
 uniform sampler2D binormalBuffer;
 
+varying vec2 tc;
+
 varying vec3 viewVector;
 varying vec3 normal;
 varying vec3 outPos;
-varying vec3 lightVector[LightPosition.length()];
 
 void main()
 {
-	worldPos = (World * vec4(Vertex, 1)).xyz;
-
+	vec3 worldPos = (World * vec4(Vertex, 0.0, 1.0)).xyz;
+	
+	tc = 0.5 + Vertex * 0.5;
 	vec3 normal =	texture2D(normalBuffer, tc).xyz*2.0-1.0;		//in world space
 	vec3 tangent =	texture2D(tangentBuffer, tc).xyz*2.0-1.0;	//in world space
 	vec3 binormal =	texture2D(binormalBuffer, tc).xyz*2.0-1.0;	//in world space
@@ -41,13 +42,6 @@ void main()
 	viewVector = worldToTangentSpace * viewVector;
 	normal = worldToTangentSpace * normal;
 
-	//vec3 lightVector[LightPosition.length()];
-	for (int i=0; i<LightPosition.length(); i++) {
-		lightVector[i] = LightPosition[i] - worldPos;
-		lightVector[i] = worldToTangentSpace * lightVector[i];
-	}
-
-	tc = 0.5 + Vertex * 0.5;
 	gl_Position = vec4(Vertex.xy, 0.0, 1.0);
 }
 
