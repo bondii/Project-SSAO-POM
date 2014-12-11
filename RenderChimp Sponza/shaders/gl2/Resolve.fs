@@ -38,7 +38,7 @@ void main()
 	int nCurrSample = 0;
 
 	while (nCurrSample < nNumSamples) {
-		fCurrSampledHeight = textureGrad(heightBuffer, tc + vCurrOffset, dx, dy).a;
+		fCurrSampledHeight = textureGrad(heightBuffer, tc + vCurrOffset, dx, dy).r;
 		if (fCurrSampledHeight > fCurrRayHeight) {
 			float delta1 = fCurrSampledHeight - fCurrRayHeight;
 			float delta2 = (fCurrRayHeight + fStepSize) - fLastSampledHeight;
