@@ -27,12 +27,17 @@ void main()
 	vec3 tangent =	texture2D(tangentBuffer, tc).xyz*2.0-1.0;	//in world space
 	vec3 binormal =	texture2D(binormalBuffer, tc).xyz*2.0-1.0;	//in world space
 
-	mat3 tangentToWorldSpace;
-	tangentToWorldSpace[0] = tangent;
-	tangentToWorldSpace[1] = binormal;
-	tangentToWorldSpace[2] = normal;
+	mat3 tTWS;
+	tTWS[0] = tangent;
+	tTWS[1] = binormal;
+	tTWS[2] = normal;
 
-	mat3 worldToTangentSpace = transpose(tangentToWorldSpace);
+	//mat3 worldToTangentSpace = transpose(tTWS); //apparently doesn't work in this version of glsl
+	mat3 worldToTangentSpace = mat3(
+                 vec3(tTWS[0].x, tTWS[1].x, tTWS[2].x),
+                 vec3(tTWS[0].y, tTWS[1].y, tTWS[2].y),
+                 vec3(tTWS[0].z, tTWS[1].z, tTWS[2].z)
+                 );
 
 	viewVector = worldToTangentSpace * viewVector;
 	normal = worldToTangentSpace * normal;
