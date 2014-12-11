@@ -59,7 +59,7 @@ void main()
 			fLastSampledHeight = fCurrSampledHeight;
 		}
 	}
-
+	
 	vec2 vFinalCoords = tc + vCurrOffset;
 	
 	vec4 diffuseTexture = texture2D(diffuseTextureBuffer, vFinalCoords);
@@ -67,7 +67,8 @@ void main()
 	vec3 ambient = vec3(0.8);
 
 	/* Final lighting */
-	gl_FragData[0] = vec4((light.rgb+ambient)*diffuseTexture.rgb,1.0);
+	//gl_FragData[0] = vec4((light.rgb+ambient)*diffuseTexture.rgb,1.0);
+	gl_FragData[0] = vec4(textureGrad(heightBuffer, tc, dx, dy));
 
 }
 
