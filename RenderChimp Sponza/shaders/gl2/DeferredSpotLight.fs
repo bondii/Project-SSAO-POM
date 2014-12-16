@@ -20,6 +20,7 @@ uniform float LightAngleFalloff;
 
 uniform vec2 ShadowMapTexelSize;
 
+//varying vec3 worldPos;
 
 #define EXTRACT_DEPTH(cc)	((cc).b + (cc).g / 256.0 + (cc).r / (256.0 * 256.0) + (cc).a / (256.0 * 256.0 * 256.0))
 
